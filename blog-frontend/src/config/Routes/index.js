@@ -1,14 +1,20 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes as Switch, Route, Link} from 'react-router-dom'
-import { Home, Login, Register } from '../../pages'
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import { MainApp, Login, Register } from '../../pages'
 
 const Routes = () => {
   return (
     <Router>
         <Switch>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Home/>} />
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route path="/">
+              <MainApp />
+            </Route>
         </Switch>
     </Router>
   )
