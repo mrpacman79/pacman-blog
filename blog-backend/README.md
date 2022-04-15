@@ -191,3 +191,6 @@ Response :
 }
     
 ```
+
+## Testing
+Use Postman and then use [Mockaroo](https://www.mockaroo.com/)
