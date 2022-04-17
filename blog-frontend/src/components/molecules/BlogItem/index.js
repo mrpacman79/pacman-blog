@@ -1,24 +1,29 @@
 import React from 'react';
-import { RegisterBg } from '../../../assets';
 import {Button, Gap} from '../../atoms'; 
 import './blogItem.scss';
 import { useHistory } from 'react-router-dom';
 
-const BlogItem = () => {
+const BlogItem = (props) => {
   const history = useHistory();
-
+  // destructoring
+  const {image, title, name, date, body, _id, onDelete} = props;
   return (
     <div className='blog-item'>
-        <img className='image-thumb' src={RegisterBg} alt="post"/>
+        <img className='image-thumb' src={image} alt="post"/>
         <div className='content-detail'>
-            <p className='title'>Title Blog</p>
-            <p className='author'>Author - Date POST</p>
-            <p className='body'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tu enim ista lenius, hic Stoicorum more nos vexat. </p>
-            <Gap height={20}/>
-            <Button title="View Detail" onClick={() => history.push('/detail-blog')} />
+          <div className='title-wrapper'>
+            <p className='title'>{title}</p>
+            <div className='edit-wrapper'>
+              <p className='edit' onClick={() => history.push(`/create-blog/${_id}`)} >Edit</p>  <p className='delete' onClick={() => onDelete(_id)} >Delete</p>
+            </div>
+          </div>      
+          <p className='author'>{name} - {date}</p>
+          <p className='body'>{body}</p>
+          <Gap height={20}/>
+          <Button title="View Detail" onClick={() => history.push(`/detail-blog/${_id}`)} />
         </div>
     </div>
   )
 }
 
-export default BlogItem
+export default BlogItem;

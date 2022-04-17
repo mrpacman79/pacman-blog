@@ -1,21 +1,36 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import {RegisterBg} from '../../assets';
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useHistory, withRouter } from 'react-router-dom';
 import { Link } from '../../components/atoms';
 import './detailBlog.scss';
 
-const DetailBlog = () => {
+const DetailBlog = (props) => {
+  const [data, setData] = useState({});
+  useEffect(() => {
+    const id = props.match.params.id;
+    Axios.get(`http://localhost:4000/v1/blog/post/${id}`)
+    .then(res => {
+      console.log('Success: ', res);
+      setData(res.data.data)
+    }).catch(err => {
+      console.log('Error: ', err)
+    });
+  })
   const history = useHistory();
-
+  if(data.author) {
+    return (
+      <div className='detail-blog-wrapper'>
+        <img className='img-cover' src={`http://localhost:4000/${data.image}`} alt="thumb" />
+        <p className='blog-title'>{data.title}</p>
+        <p className='blog-author'>{data.author.name} - {data.createdAt}</p>
+        <p className='blog-body'>{data.body}</p>
+        <Link title="Kembali ke Home" onClick={() => history.push('/')} />
+      </div>
+    )
+  }
   return (
-    <div className='detail-blog-wrapper'>
-      <img className='img-cover' src={RegisterBg} alt="thumb" />
-      <p className='blog-title'>Title Blog</p>
-      <p className='blog-author'>Author - Date POST</p>
-      <p className='blog-body'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tria genera cupiditatum, naturales et necessariae, naturales et non necessariae, nec naturales nec necessariae. Multoque hoc melius nos veriusque quam Stoici. Maximus dolor, inquit, brevis est. Quae cum essent dicta, finem fecimus et ambulandi et disputandi. Duo Reges: constructio interrete. Egone non intellego, quid sit don Graece, Latine voluptas? Tenesne igitur, inquam, Hieronymus Rhodius quid dicat esse summum bonum, quo putet omnia referri oportere? Hic ambiguo ludimur. Quae in controversiam veniunt, de iis, si placet, disseramus. Itaque et manendi in vita et migrandi ratio omnis iis rebus, quas supra dixi, metienda.</p>
-      <Link title="Kembali ke Home" onClick={() => history.push('/')} />
-    </div>
+    <p>Loading Data ...</p>
   )
 }
 
-export default DetailBlog;
+export default withRouter(DetailBlog);
